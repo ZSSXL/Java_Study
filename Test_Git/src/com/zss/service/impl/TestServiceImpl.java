@@ -9,4 +9,9 @@ public class TestServiceImpl implements TestService{
 		System.out.println("Git测试");
 	}
 
+	@Override
+	public void update() {
+		System.out.println("update，更新测试");
+	}
+
 }
