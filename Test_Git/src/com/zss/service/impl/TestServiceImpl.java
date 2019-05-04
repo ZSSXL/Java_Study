@@ -13,5 +13,9 @@ public class TestServiceImpl implements TestService{
 	public void update() {
 		System.out.println("update，更新测试");
 	}
+	
+	public void UpdateToLocal() {
+		System.out.println("update to local!!");
+	}
 
 }
