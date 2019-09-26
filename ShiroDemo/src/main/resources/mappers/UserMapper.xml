@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zss.shirodemo.mapper.UserMapper">
+    <resultMap id="userMap" type="com.zss.shirodemo.pojo.User">
+        <id property="userId" column="user_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <collection property="roles" ofType="com.zss.shirodemo.pojo.Role">
+            <id property="roleId" column="role_id"/>
+            <result property="roleName" column="role_name"/>
+            <collection property="permissions" ofType="com.zss.shirodemo.pojo.Permission">
+                <id property="permissionId" column="permission_id"/>
+                <result property="permissionName" column="permission_name"/>
+                <result property="url" column="url"/>
+            </collection>
+        </collection>
+    </resultMap>
+
+    <select id="findByUsername" parameterType="java.lang.String" resultMap="userMap">
+        select u.*,r.*,p.*
+        from user u
+            inner join user_role ur on ur.user_id = u.user_id
+            inner join role r on r.role_id = ur.role_id
+            inner join permission_role pr on pr.role_id = r.role_id
+            inner join permission p on p.permission_id = pr.permission_id
+        where u.username = #{username}
+    </select>
+</mapper>
