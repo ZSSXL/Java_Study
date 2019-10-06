@@ -1,4 +1,4 @@
-package com.zss.rabbitmqconsumer.rabbitmq;
+package com.zss.rabbitmqconsumer.rabbitmq.Subscribe;
 
 import com.rabbitmq.client.*;
 
@@ -35,7 +35,8 @@ public class Consumer02SubscribeEmail {
             channel = connection.createChannel();
             // 申明队列，在此声明队列是为了防止没有队列
             channel.queueDeclare(QUEUE_INFORM_EMAIL, true, false, false, null);
-
+            // 声明一个交换机
+            channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM, BuiltinExchangeType.FANOUT);
             // 实现消费方法
             DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {
                 /**

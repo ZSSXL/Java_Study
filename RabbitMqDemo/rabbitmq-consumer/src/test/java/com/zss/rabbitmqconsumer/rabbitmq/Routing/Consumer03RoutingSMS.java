@@ -1,4 +1,4 @@
-package com.zss.rabbitmqconsumer.rabbitmq;
+package com.zss.rabbitmqconsumer.rabbitmq.Routing;
 
 import com.rabbitmq.client.*;
 
@@ -11,11 +11,13 @@ import java.util.concurrent.TimeoutException;
  * @date 2019/10/5 16:57
  * @description 发布订阅模式，email消费
  */
-public class Consumer02SubscribeSMS {
+public class Consumer03RoutingSMS {
     // 队列名称
     private static final String QUEUE_INFORM_SMS = "queue_inform_sms";
     // 交换机
-    private static final String EXCHANGE_FANOUT_INFORM = "exchange_fanout_inform";
+    private static final String EXCHANGE_FANOUT_INFORM = "exchange_routing_inform";
+    // routingKey
+    private static final String ROUTINGKEY_SMS = "inform_sms";
 
     public static void main(String[] args) {
         // 通过连接工厂拆功能键鑫的连接和mq建立连接
@@ -35,7 +37,16 @@ public class Consumer02SubscribeSMS {
             channel = connection.createChannel();
             // 申明队列，在此声明队列是为了防止没有队列
             channel.queueDeclare(QUEUE_INFORM_SMS, true, false, false, null);
-
+            // 声明一个交换机
+            channel.exchangeDeclare(EXCHANGE_FANOUT_INFORM, BuiltinExchangeType.DIRECT);
+            // 进行交换机和队列绑定
+            // 参数 String queue, String exchange, String routingKey
+            /*
+             * 1、queue：队列名称
+             * 2、exchange：交换机
+             * 3、routingKey：路由
+             */
+            channel.queueBind(QUEUE_INFORM_SMS, EXCHANGE_FANOUT_INFORM, ROUTINGKEY_SMS);
             // 实现消费方法
             DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {
                 /**
