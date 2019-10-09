@@ -1,9 +1,5 @@
 package com.zss.rabbitmqproducer.rabbitmqtest;
 
-import com.rabbitmq.client.BuiltinExchangeType;
-import com.rabbitmq.client.Channel;
-import com.rabbitmq.client.Connection;
-import com.rabbitmq.client.ConnectionFactory;
 import com.zss.rabbitmqproducer.config.RabbitConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -11,9 +7,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.IOException;
-import java.util.concurrent.TimeoutException;
 
 /**
  * @author ZSS

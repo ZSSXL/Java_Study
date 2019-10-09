@@ -13,11 +13,11 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String QUEUE_INFORM_EMAIL = "queue_inform_email";
-    public static final String QUEUE_INFORM_SMS = "queue_inform_sms";
+    private static final String QUEUE_INFORM_EMAIL = "queue_inform_email";
+    private static final String QUEUE_INFORM_SMS = "queue_inform_sms";
     public static final String EXCHANGE_TOPIC_INFORM = "exchange_topic_inform";
-    public static final String ROUTINGKEY_EMAIL = "inform.#.email.#";
-    public static final String ROUTINGKEY_SMS = "inform.#.sms.#";
+    private static final String ROUTINGKEY_EMAIL = "inform.#.email.#";
+    private static final String ROUTINGKEY_SMS = "inform.#.sms.#";
 
     /**
      * 声明交换机
