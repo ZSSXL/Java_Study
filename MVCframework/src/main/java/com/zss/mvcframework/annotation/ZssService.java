@@ -5,12 +5,12 @@ import java.lang.annotation.*;
 /**
  * @author ZSS
  * @date 2019/10/26 16:27
- * @description 自定义 @Autowired 注解
+ * @description 自定义 @Service 注解
  */
-@Target({ElementType.FIELD})
+@Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface ZssAutowired {
+public @interface ZssService {
 
     String value() default "";
 
