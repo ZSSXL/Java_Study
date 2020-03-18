@@ -16,6 +16,7 @@ import java.io.IOException;
 @ServerEndpoint("/websocket/{uid}")
 public class MyWebsocket {
 
+
     @OnOpen
     public void onOpen(Session session, @PathParam("uid") String uid) {
         System.out.println("websocket已经连接.... " + session);
