@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: dubbo-test-service
+
+dubbo:
+  application:
+    name: dubbo_test_service
+  registry:
+    protocol: zookeeper
+    addreess: zookeeper://60.205.179.156:2181
+  protocol:
+    name: dubbo
+    port: 20880
+  scan:
+    base-packages: com.zss.service.impl
