@@ -31,6 +31,15 @@ public class EnterpriseServiceImpl implements EnterpriseService {
     }
 
     @Override
+    public Boolean addManyEnterprise(List<Enterprise> enterpriseList) {
+        List<Enterprise> insert = enterpriseRepository.insert(enterpriseList);
+        for (Enterprise enp : insert) {
+            System.out.println("Enterprise : [" + enp + "]");
+        }
+        return true;
+    }
+
+    @Override
     public List<Enterprise> selectAll() {
         return enterpriseRepository.findAll();
     }

@@ -20,6 +20,14 @@ public interface EnterpriseService {
     Boolean insertNewEnterprise(Enterprise enp);
 
     /**
+     * 批量添加企业
+     *
+     * @param enterpriseList 多个企业
+     * @return Boolean
+     */
+    Boolean addManyEnterprise(List<Enterprise> enterpriseList);
+
+    /**
      * 获取所有企业
      *
      * @return List<Enterprise>

@@ -5,6 +5,7 @@ import com.zss.mongodbtest.service.EnterpriseService;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +32,25 @@ public class EnterpriseTest extends BaseTest {
                 .build();
         Boolean result = enterpriseService.insertNewEnterprise(build);
         System.out.println("Insert result : " + result);
+    }
+
+    /**
+     * 批量插入新企业 - 测试
+     */
+    @Test
+    public void addManyEnterprise() {
+        List<Enterprise> enterpriseList = new ArrayList<>();
+        for (int i = 2; i <= 10; i++) {
+            enterpriseList.add(Enterprise.builder()
+                    .enterpriseId("200" + i)
+                    .enterpriseName("enterprise" + i)
+                    .enterpriseEmail("1234" + i + "@123.com")
+                    .enterpriseWeb("www.enterprise" + i + ".com")
+                    .enterpriseAddress("address" + i)
+                    .build());
+        }
+        Boolean result = enterpriseService.addManyEnterprise(enterpriseList);
+        System.out.println("Insert Many result : " + result);
     }
 
     /**
