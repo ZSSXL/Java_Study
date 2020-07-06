@@ -1,0 +1,19 @@
+server:
+  port: 8888
+
+spring:
+
+  jpa:
+    database: postgresql
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+
+  datasource:
+    url: jdbc:postgresql://127.0.0.1:5432/emp
+    username: emp_test
+    password: 123456
+    driver-class-name: org.postgresql.Driver
