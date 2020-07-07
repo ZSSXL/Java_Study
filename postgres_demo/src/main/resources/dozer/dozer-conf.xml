@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mappings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://dozer.sourceforge.net"
+          xsi:schemaLocation="http://dozer.sourceforge.net
+          http://dozer.sourceforge.net/schema/beanmapping.xsd">
+
+    <mapping>
+        <!--对应的实体和要转换成的VO-->
+        <class-a>com.zss.postgres_demo.entity.Enterprise</class-a>
+        <class-b>com.zss.postgres_demo.entity.vo.EnterpriseVo</class-b>
+        <!--对应要转换的属性名.<a>和<class-a>对应，其它同理-->
+        <field>
+            <a>enterpriseId</a>
+            <b>id</b>
+        </field>
+        <field>
+            <a>enterpriseName</a>
+            <b>name</b>
+        </field>
+        <field>
+            <a>enterpriseEmail</a>
+            <b>email</b>
+        </field>
+        <field>
+            <a>enterpriseAddress</a>
+            <b>address</b>
+        </field>
+    </mapping>
+</mappings>
