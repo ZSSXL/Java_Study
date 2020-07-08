@@ -31,5 +31,5 @@ public interface ManagerService {
      * @param password 密码
      * @return Boolean
      */
-    Boolean login(String username, String password);
+    Manager login(String username, String password);
 }

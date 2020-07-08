@@ -36,9 +36,9 @@ public class ManagerServiceImpl implements ManagerService {
     }
 
     @Override
-    public Boolean login(String username, String password) {
+    public Manager login(String username, String password) {
         Manager managerLogin = managerRepository.findByManagerNameAndManagerPassword(username, password);
         System.out.println("Login Result : [" + managerLogin + "]");
-        return true;
+        return managerLogin;
     }
 }

@@ -5,5 +5,5 @@ package com.zss.jwt;
  * @date 2020/7/7 11:00
  * @desc manager - 测试
  */
-public class ManagerTest extends BaseTest{
+public class ManagerTest extends BaseTest {
 }
