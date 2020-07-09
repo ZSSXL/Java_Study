@@ -1,0 +1,9 @@
+server:
+  port: 8888
+
+spring:
+  security:
+    user:
+      name: zss
+      password: 123456
+      roles: admin
