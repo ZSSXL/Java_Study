@@ -4,7 +4,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Table;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
@@ -19,10 +23,15 @@ import java.io.Serializable;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@Entity(name = "test_user")
+@Table(appliesTo = "test_user", comment = "测试")
 public class User implements Serializable {
 
+    @Id
+    @Column(nullable = false, unique = true, columnDefinition = "varchar(20)")
     private String username;
 
+    @Column(columnDefinition = "varchar(100)")
     private String password;
 
     private String email;

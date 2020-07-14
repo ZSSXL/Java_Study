@@ -3,6 +3,9 @@ package com.zss.service.impl;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.zss.api.entity.User;
 import com.zss.api.service.UserService;
+import com.zss.repository.UserRepository;
+
+import javax.annotation.Resource;
 
 /**
  * @author ZSS
@@ -15,6 +18,9 @@ import com.zss.api.service.UserService;
 @Service(version = "1.0.0", interfaceClass = UserService.class)
 public class UserServiceImpl implements UserService {
 
+    @Resource
+    private UserRepository userRepository;
+
     @Override
     public String sayHello(String content) {
         return "Hello, welcome to use dubbo + [ " + content + " ]";
@@ -23,6 +29,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User helloUser(User user) {
         System.out.println("[" + user + "]");
+        User save = userRepository.save(user);
+        System.out.println("save : [" + save + "]");
         return user;
     }
 }
