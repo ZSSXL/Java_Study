@@ -9,7 +9,7 @@
 	注意一点：Redis的版本至少需要2.6，当然越高越好，API的兼容性比较强大。
 ```
 
-![官网截图](./img/official.png)
+![官网截图](https://github.com/ZSSXL/Java_Study/blob/master/lettuce_demo/img/official.png)
 
 #### Lettuce和Jedis的比较
 
