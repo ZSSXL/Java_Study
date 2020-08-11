@@ -11,6 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * @desc Lettuce - 启动类
  */
 @SpringBootApplication
+@EnableConfigurationProperties(LettuceProperties.class)
 public class LettuceApplication {
 
     public static void main(String[] args) {

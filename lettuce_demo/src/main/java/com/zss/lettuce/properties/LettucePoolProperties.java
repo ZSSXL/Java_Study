@@ -8,13 +8,34 @@ package com.zss.lettuce.properties;
 @SuppressWarnings("unused")
 public class LettucePoolProperties {
 
-    private Integer maxIdle;
-    private Integer minIdle;
-    private Integer maxTotal;
-    private Long maxWaitMills;
-    private Boolean testOnBorrow;
-    private Boolean testOnReturn;
-    private Boolean testOnCreate;
+    /**
+     * 对象池中最大的空闲对象个数，默认值是8。
+     */
+    private Integer maxIdle = 8;
+    /**
+     * 对象池中最小的空闲对象个数，默认值是0。
+     */
+    private Integer minIdle = 0;
+    /**
+     * 对象池中管理的最多对象个数默，认值是8。
+     */
+    private Integer maxTotal = 8;
+    /**
+     * 当连接池资源耗尽时，等待时间，超出则抛异常，默认为-1即永不超时, 单位ms
+     */
+    private Long maxWaitMills = -1L;
+    /**
+     * 在获取对象的时候检查有效性, 默认false
+     */
+    private Boolean testOnBorrow = false;
+    /**
+     * 在归还对象的时候检查有效性, 默认false
+     */
+    private Boolean testOnReturn = false;
+    /**
+     * 在创建对象时检测对象是否有效，默认值是false。
+     */
+    private Boolean testOnCreate = false;
 
     // ==================== Getter & Setter ==================== //
 

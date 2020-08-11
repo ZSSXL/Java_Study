@@ -32,7 +32,6 @@ import java.time.temporal.ChronoUnit;
  */
 @Configuration
 @ConditionalOnClass
-@EnableConfigurationProperties(LettuceProperties.class)
 public class LettuceAutoConfiguration {
 
     private final LettuceProperties lettuceProperties;
