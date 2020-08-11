@@ -34,7 +34,6 @@ public class LettuceSentinelProperties extends LettuceSingleProperties {
 
     // ==================== ToString ==================== //
 
-
     @Override
     public String toString() {
         return "LettuceSentinelProperties{" +

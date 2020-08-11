@@ -1,5 +1,6 @@
 package com.zss.lettuce.config;
 
+import com.zss.lettuce.properties.LettucePoolProperties;
 import com.zss.lettuce.properties.LettuceProperties;
 import com.zss.lettuce.properties.LettuceReplicaProperties;
 import com.zss.lettuce.properties.LettuceSingleProperties;
@@ -11,6 +12,9 @@ import io.lettuce.core.masterreplica.MasterReplica;
 import io.lettuce.core.masterreplica.StatefulRedisMasterReplicaConnection;
 import io.lettuce.core.resource.ClientResources;
 import io.lettuce.core.resource.DefaultClientResources;
+import io.lettuce.core.support.ConnectionPoolSupport;
+import org.apache.commons.pool2.impl.GenericObjectPool;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -63,10 +67,52 @@ public class LettuceAutoConfiguration {
         return RedisClient.create(clientResources, singleRedisUri);
     }
 
+    /*
+    /**
+     * 简单的实现
     @Bean(destroyMethod = "close")
     @ConditionalOnProperty(name = "lettuce.single.host")
-    public StatefulRedisConnection<String, String> singleRedisConnection(@Qualifier("singleRedisClient") RedisClient singleRedisClient) {
+    public StatefulRedisConnection<String, String> singleRedisConnection(
+            @Qualifier("singleRedisClient") RedisClient singleRedisClient) {
         return singleRedisClient.connect();
+    }*/
+
+    /**
+     * Redis连接池配置
+     *
+     * @param singleRedisClient redis客户端实例
+     * @return 连接池实例
+     * 问题：本来想@Bean(destroyMethod = "returnObject")
+     * -----但是由于returnObject(T)这个方法需要带参，所有不行
+     */
+    @Bean
+    @ConditionalOnProperty(name = "lettuce.single.host")
+    public GenericObjectPool<StatefulRedisConnection<String, String>> singleRedisPool(
+            @Qualifier("singleRedisClient") RedisClient singleRedisClient) {
+        LettucePoolProperties pool = lettuceProperties.getPool();
+        GenericObjectPoolConfig<StatefulRedisConnection<String, String>> poolConfig =
+                new GenericObjectPoolConfig<>();
+        poolConfig.setMaxIdle(pool.getMaxIdle());
+        poolConfig.setMinIdle(pool.getMinIdle());
+        poolConfig.setMaxTotal(pool.getMaxTotal());
+        poolConfig.setTestOnBorrow(pool.getTestOnBorrow());
+        poolConfig.setTestOnReturn(pool.getTestOnReturn());
+        poolConfig.setTestOnCreate(pool.getTestOnCreate());
+        poolConfig.setMaxWaitMillis(pool.getMaxWaitMills());
+        return ConnectionPoolSupport
+                .createGenericObjectPool(singleRedisClient::connect, poolConfig);
+    }
+
+    @Bean(destroyMethod = "close")
+    @ConditionalOnProperty(name = "lettuce.single.host")
+    public StatefulRedisConnection<String, String> singleRedisConnection(
+            @Qualifier("singleRedisPool") GenericObjectPool<StatefulRedisConnection<String, String>> singleRedisPool) {
+        try {
+            return singleRedisPool.borrowObject();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
     // ========================== Single配置 End ========================== //
 

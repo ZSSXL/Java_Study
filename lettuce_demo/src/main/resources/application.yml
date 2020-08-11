@@ -1,26 +1,39 @@
 # 自定义
 lettuce:
+  # 单机配置
   single:
     host: 127.0.0.1
     port: 6379
     database: 0
     timeout: 20
+  # 主从配置
   replica:
     host: 127.0.0.1
     port: 6379
     database: 0
     timeout: 20
+  # 哨兵配置
   sentinel:
     host: 127.0.0.1
     port: 6379
     database: 0
     timeout: 20
     masterId: 0
+  # 集群配置
   cluster:
     host: 127.0.0.1
     port: 6379
     database: 0
     timeout: 20
+  # 连接池配置
+  pool:
+    max-idle: 10
+    min-idle: 0
+    max-total: 15
+    max-wait-mills: 1000
+    test-on-borrow: true
+    test-on-return: false
+    test-on-create: false
 
 # spring boot data redis 配置
 spring:

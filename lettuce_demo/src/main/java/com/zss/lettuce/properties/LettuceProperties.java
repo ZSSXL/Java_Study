@@ -17,9 +17,9 @@ public class LettuceProperties {
     private LettuceReplicaProperties replica;
     private LettuceSentinelProperties sentinel;
     private LettuceClusterProperties cluster;
+    private LettucePoolProperties pool;
 
     // ==================== Getter & Setter ==================== //
-
 
     public LettuceSingleProperties getSingle() {
         return single;
@@ -53,6 +53,14 @@ public class LettuceProperties {
         this.cluster = cluster;
     }
 
+    public LettucePoolProperties getPool() {
+        return pool;
+    }
+
+    public void setPool(LettucePoolProperties pool) {
+        this.pool = pool;
+    }
+
     // ==================== Hash & Equals ==================== //
 
 
@@ -68,16 +76,16 @@ public class LettuceProperties {
         return Objects.equals(single, that.single) &&
                 Objects.equals(replica, that.replica) &&
                 Objects.equals(sentinel, that.sentinel) &&
-                Objects.equals(cluster, that.cluster);
+                Objects.equals(cluster, that.cluster) &&
+                Objects.equals(pool, that.pool);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(single, replica, sentinel, cluster);
+        return Objects.hash(single, replica, sentinel, cluster, pool);
     }
 
     // ==================== ToString ==================== //
-
 
     @Override
     public String toString() {
@@ -86,6 +94,7 @@ public class LettuceProperties {
                 ", replica=" + replica +
                 ", sentinel=" + sentinel +
                 ", cluster=" + cluster +
+                ", pool=" + pool +
                 '}';
     }
 }

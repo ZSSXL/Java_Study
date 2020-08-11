@@ -52,7 +52,6 @@ public class LettuceSingleProperties {
 
     // ==================== ToString ==================== //
 
-
     @Override
     public String toString() {
         return "LettuceSingleProperties{" +
