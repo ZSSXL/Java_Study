@@ -1,0 +1,22 @@
+lettuce:
+  single:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 20
+  replica:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 20
+  sentinel:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 20
+    masterId: 0
+  cluster:
+    host: 127.0.0.1
+    port: 6379
+    database: 0
+    timeout: 20

@@ -55,7 +55,7 @@ public class MasterSlaveTest extends BaseTest {
     /**
      * 获取连接 - 方法一
      *
-     * @return commands
+     * @return connect
      */
     private StatefulRedisMasterReplicaConnection<String, String> getRedis() {
         // 创建连接信息
@@ -77,7 +77,7 @@ public class MasterSlaveTest extends BaseTest {
     /**
      * 获取连接 - 方法一
      *
-     * @return commands
+     * @return connect
      */
     private StatefulRedisMasterReplicaConnection<String, String> getRedisV2() {
         // 创建连接信息
@@ -110,6 +110,7 @@ public class MasterSlaveTest extends BaseTest {
         RedisCommands<String, String> sync = redis.sync();
         Long master = sync.del("master");
         System.out.println("Del Result : " + master);
+        redis.close();
     }
 
     @Test
@@ -127,6 +128,7 @@ public class MasterSlaveTest extends BaseTest {
         RedisCommands<String, String> sync = redisV2.sync();
         Long master = sync.del("master");
         System.out.println("Del Result V2 : " + master);
+        redisV2.close();
     }
 
 
