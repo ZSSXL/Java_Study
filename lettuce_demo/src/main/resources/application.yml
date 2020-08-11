@@ -1,3 +1,4 @@
+# 自定义
 lettuce:
   single:
     host: 127.0.0.1
@@ -20,3 +21,19 @@ lettuce:
     port: 6379
     database: 0
     timeout: 20
+
+# spring boot data redis 配置
+spring:
+  redis:
+    database: 0
+    host: 127.0.0.1
+    port: 6379
+    # 单位毫秒（ms）
+    timeout: 1000
+    lettuce:
+      pool:
+        max-active: 15
+        max-idle: 10
+        min-idle: 0
+        # 最大等待时间，负值标识无时间限制
+        max-wait: -1
