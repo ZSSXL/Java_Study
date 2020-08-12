@@ -293,13 +293,13 @@ public void getFromPoolTest() {
     StatefulRedisConnection<String, String> redisConnect = getRedisConnect();
     if (redisConnect == null) {
     	System.out.println("获取连接失败");
-	} else {
-    	RedisCommands<String, String> sync = redisConnect.sync();
+    } else {
+        RedisCommands<String, String> sync = redisConnect.sync();
         String local = sync.get("local");
         System.out.println("Get Result : " + local);
         // Get Result : shanghai Or null
         redisConnect.close();
-	}
+    }
 }
 ```
 
@@ -331,16 +331,16 @@ static {
     	e.printStackTrace();
     }
     HOST = properties.getProperty("redis.host");
-	PORT = Integer.valueOf(properties.getProperty("redis.port"));
-	 = Integer.valueOf(properties.getProperty("redis.database"));
+    PORT = Integer.valueOf(properties.getProperty("redis.port"));
+    DATABASE = Integer.valueOf(properties.getProperty("redis.database"));
     TIME_OUT = Long.valueOf(properties.getProperty("redis.time_out"));
-	MAX_IDLE = Integer.valueOf(properties.getProperty("redis.max_idle"));
-	MIN_IDLE = Integer.valueOf(properties.getProperty("redis.min_idle"));
+    MAX_IDLE = Integer.valueOf(properties.getProperty("redis.max_idle"));
+    MIN_IDLE = Integer.valueOf(properties.getProperty("redis.min_idle"));
     MAX_TOTAL = Integer.valueOf(properties.getProperty("redis.max_total"));
     MAX_WAIT_MILLS = Long.valueOf(properties.getProperty("redis.max_wait_mills"));
-	TEST_ON_BORROW = Boolean.valueOf(properties.getProperty("redis.test_on_borrow"));
-	TEST_ON_CREATE = Boolean.valueOf(properties.getProperty("redis.test_on_create"));
-	TEST_ON_RETURN = Boolean.valueOf(properties.getProperty("redis.test_on_return"));
+    TEST_ON_BORROW = Boolean.valueOf(properties.getProperty("redis.test_on_borrow"));
+    TEST_ON_CREATE = Boolean.valueOf(properties.getProperty("redis.test_on_create"));
+    TEST_ON_RETURN = Boolean.valueOf(properties.getProperty("redis.test_on_return"));
 }
 /**
  * Redis连接池
@@ -361,8 +361,8 @@ public static StatefulRedisConnection<String, String> getRedis() {
         .build();
 
 	// 配置连接池
-	GenericObjectPoolConfig<StatefulRedisConnection<String, String>> poolConfig =
-    	new GenericObjectPoolConfig<>();
+    GenericObjectPoolConfig<StatefulRedisConnection<String, String>> poolConfig =
+        new GenericObjectPoolConfig<>();	
 	poolConfig.setMaxIdle(MAX_IDLE);
     poolConfig.setMinIdle(MIN_IDLE);
     poolConfig.setMaxTotal(MAX_TOTAL);
@@ -420,16 +420,16 @@ public static void getPoolMessage() {
 ```Java
 public static String set(String key, String value) {
     StatefulRedisConnection<String, String> redis = RedisPool.getRedis();
-	if (redis != null) {
+    if (redis != null) {
         RedisPool.getPoolMessage();
         RedisCommands<String, String> sync = redis.sync();
         String set = sync.set(key, value);
         RedisPool.returnRedis(redis);
         RedisPool.getPoolMessage();
-    	return set;
-	} else {
-    	return "";
-	}
+        return set;
+    } else {
+        return "";
+    }
 }
 public static String get(String key) {
 	StatefulRedisConnection<String, String> redis = RedisPool.getRedis();
@@ -444,15 +444,15 @@ public static String get(String key) {
 }
 public static String setEx(String key, String value, Long ex) {
     StatefulRedisConnection<String, String> redis = RedisPool.getRedis();
-    if (redis != null) {
-    	RedisCommands<String, String> sync = redis.sync();
+	if (redis != null) {
+        RedisCommands<String, String> sync = redis.sync();
         SetArgs setArgs = SetArgs.Builder.ex(ex);
         String set = sync.set(key, value, setArgs);
         RedisPool.returnRedis(redis);
         return set;
-	} else {
-    	return "";
-	}
+    } else {
+        return "";
+    }
 }
 ```
 
