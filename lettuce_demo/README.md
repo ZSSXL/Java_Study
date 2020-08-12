@@ -208,7 +208,7 @@ public void setTestV2() {
     System.out.println("Set Result V2 : " + set);
     redisV2.close();
 }
-public void getTest(){
+public void getTestV2(){
     StateFulRedisMasterReplicaConnection<String, String> redisV2 = getRedisV2();
     RedisCommands<String, String> sync = redisV2.sync();
     String master = sync.get("master");
@@ -277,17 +277,17 @@ private StatefulRedisConnection<String, String> getRedisConnect() {
 
 ```Java
 public void setFromPoolTest() {
-	StatefulRedisConnection<String, String> redisConnect = getRedisConnect();
+    StatefulRedisConnection<String, String> redisConnect = getRedisConnect();
     if (redisConnect == null) {
-    	System.out.println("获取连接失败");
-	} else {
-    	RedisCommands<String, String> sync = redisConnect.sync();
+        System.out.println("获取连接失败");
+    } else {
+        RedisCommands<String, String> sync = redisConnect.sync();
         SetArgs setArgs = SetArgs.Builder.nx().ex(20);
         String set = sync.set("local", "shanghai", setArgs);
         System.out.println("Set Result : " + set);
         // Set Result : OK
         redisConnect.close();
-	}
+    }
 }
 public void getFromPoolTest() {
     StatefulRedisConnection<String, String> redisConnect = getRedisConnect();
