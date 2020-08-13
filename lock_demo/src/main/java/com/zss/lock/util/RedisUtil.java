@@ -156,4 +156,27 @@ public class RedisUtil {
             return "";
         }
     }
+
+    /**
+     * redis - expire
+     *
+     * @param key    键
+     * @param expire 有效期
+     * @return expire结果
+     */
+    public Boolean expire(String key, Long expire) {
+        StatefulRedisConnection<String, String> redis = redisPool.getRedis();
+        if (redis != null) {
+            RedisCommands<String, String> sync = redis.sync();
+            Boolean expireResult = sync.expire(key, expire);
+            redisPool.returnRedis(redis);
+            if (expireResult != null && expireResult) {
+                return Boolean.TRUE;
+            } else {
+                return Boolean.FALSE;
+            }
+        } else {
+            return Boolean.FALSE;
+        }
+    }
 }

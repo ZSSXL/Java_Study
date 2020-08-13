@@ -13,7 +13,7 @@ public class TimeUtil {
      *
      * @return 当前时间戳
      */
-    public Long getCurrentTimestamp() {
+    public static Long getCurrentTimestamp() {
         return System.currentTimeMillis();
     }
 }
