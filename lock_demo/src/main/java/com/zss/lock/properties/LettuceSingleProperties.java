@@ -10,11 +10,11 @@ public class LettuceSingleProperties {
 
     private String host;
 
-    private Integer port;
+    private Integer port = 6379;
 
-    private Integer database;
+    private Integer database = 0;
 
-    private Integer timeout;
+    private Integer timeout = 60;
 
     // ==================== Getter & Setter ==================== //
 

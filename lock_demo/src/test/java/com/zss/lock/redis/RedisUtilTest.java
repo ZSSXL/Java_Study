@@ -17,30 +17,34 @@ public class RedisUtilTest extends BaseTest {
 
     private final String key = "hello";
     private final String value = "world";
+    private final Long expire = 20L;
 
     @Test
     public void setTest() {
         String set = redisUtil.set(key, value);
         System.out.println("Set Result : " + set);
+        // Set Result : OK
     }
 
     @Test
     public void getTest() {
         String value = redisUtil.get(key);
         System.out.println("Get Value : " + value);
+        // Get Value : world
     }
 
     @Test
     public void setExTest() {
-        Long expire = 10L;
         String result = redisUtil.setEx(key, value, expire);
         System.out.println("SetEx Result : " + result);
+        // SetEx Result : OK
     }
 
     @Test
     public void setNxTest() {
         Boolean result = redisUtil.setNx(key, value);
         System.out.println("SetNx : " + result);
+        // SetNx : false
     }
 
     /**
@@ -52,11 +56,23 @@ public class RedisUtilTest extends BaseTest {
         String getSet = "The world is not enough";
         String set = redisUtil.getSet(key, getSet);
         System.out.println("GetSet Result : " + set);
+        // GetSet Result : world
+    }
+
+    /**
+     * 使用该方法，如果redis中已存在该key，且未过期，则返回null
+     * 如果redis中不存在该key，则返回Ok
+     */
+    @Test
+    public void setNxExTest() {
+        String result = redisUtil.setNxEx(key, value, expire);
+        System.out.println("SetNxEx Result : " + result);
     }
 
     @Test
     public void delTest() {
         Long del = redisUtil.del(key);
         System.out.println("Del Result : " + del);
+        // Del Result : 1
     }
 }

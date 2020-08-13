@@ -1,6 +1,7 @@
 package com.zss.lock.util;
 
 import com.zss.lock.config.RedisPool;
+import io.lettuce.core.SetArgs;
 import io.lettuce.core.api.StatefulRedisConnection;
 import io.lettuce.core.api.sync.RedisCommands;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,6 +114,27 @@ public class RedisUtil {
             return setNx;
         } else {
             return Boolean.FALSE;
+        }
+    }
+
+    /**
+     * redis - setNxEx
+     *
+     * @param key   键
+     * @param value 值
+     * @param ex    有效时间
+     * @return setNxEx结果
+     */
+    public String setNxEx(String key, String value, Long ex) {
+        StatefulRedisConnection<String, String> redis = redisPool.getRedis();
+        if (redis != null) {
+            RedisCommands<String, String> sync = redis.sync();
+            SetArgs setArgs = SetArgs.Builder.nx().ex(ex);
+            String set = sync.set(key, value, setArgs);
+            redisPool.returnRedis(redis);
+            return set;
+        } else {
+            return "";
         }
     }
 
