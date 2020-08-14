@@ -49,6 +49,7 @@ public String setNxEx(String key, String value, Long ex) {
     StatefulRedisConnection<String, String> redis = redisPool.getRedis();
     if (redis != null) {
         RedisCommands<String, String> sync = redis.sync();
+        // 在这里可以保证nx和ex两个操作是原子性操作
         SetArgs setArgs = SetArgs.Builder.nx().ex(ex);
         String set = sync.set(key, value, setArgs);
         redisPool.returnRedis(redis);
@@ -73,9 +74,15 @@ public String setNxEx(String key, String value, Long ex) {
 >
 > 小问题：改进后就会有个小问题，那就是服务器们每调用**GetSet**方法都会在原来的有效时间的基础上增加一些。不过这种影响还是比较小的，可以忽略不计，这算是一个小瑕疵吧。
 
+```TXT
+	出现了一个问题：假设服务器A获取到了锁，然后开始执行业务逻辑，但是执行的时间超过了有效期，这个时候服务器B就能通过有效期的判断获取到锁，服务器B开始执行业务，然后顺利的释放了锁，然后服务器A总算是将业务逻辑执行完毕了，然后服务器A开始执行释放锁的操作，但是这个锁已经被B释放掉了。那么问题就来了。
+	根据以上的描述，会出现这么两种情况：一，同一时间段可能存在两个甚至多个服务器开始执行业务逻辑，这是万万不行的，也违背了分布式锁的初衷；二，会出现释放已经被释放的操作，虽然这不是什么大问题，但是这个也是不应该出现的。
+	总的来说就是，不管我们定多少过期时间，都不能保证，在这段时间内锁住的代码执行完成了，所以这个时间定多少都不好；而如果不定时间，当执行完成后释放锁，问题就是最开始的如果执行到一半机器宕机，那这把锁就永远放不掉了
+```
+
 ### 第三种
 
-> 使用**Redission**，在最流行的Redis分布式锁就是Redisson
+> 使用**Redission**，现在最流行的Redis分布式锁就是Redisson
 >
 > - 它对代码进行了精简的封装，我们的使用非常简单，甚至我们不用主动设置过期时间
 > - 它设计了个watch dog看门狗，每隔10秒会检查一下是否还持有锁，若持有锁，就给他更新过期时间30秒；通过这样的设计，可以让他在没有释放锁之前一直持有锁，哪怕宕机了，也能自动释放锁

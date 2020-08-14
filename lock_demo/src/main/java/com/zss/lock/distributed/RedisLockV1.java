@@ -112,8 +112,9 @@ public class RedisLockV1 {
             } else {
                 // 未获取到锁，判断有效期是否过期
                 String timeout = redisUtil.get(Const.KEY);
-                // 如果timeout不为空且获取到的timeout小于当前的时间戳
-                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS) {
+                // 如果timeout不为空
+                // 且获取到的timeout小于当前的时间戳（则说明该锁已过期）
+                if (StringUtils.isNotEmpty(timeout) && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp()) {
                     // 执行业务逻辑
                     FunctionUtil.runBusiness();
                     // 释放锁
@@ -141,8 +142,9 @@ public class RedisLockV1 {
             } else {
                 // 未获取到锁，判断有效期是否过期
                 String timeout = redisUtil.get(Const.KEY);
-                // 如果timeout不为空且获取到的timeout小于当前的时间戳
-                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS) {
+                // 如果timeout不为空, 当为空时，则为锁已经被释放了，但是不能保证在这之后不会被别的进程获取到锁
+                // 且获取到的timeout小于当前的时间戳（则说明该锁已经过期）
+                if (StringUtils.isNotEmpty(timeout) && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp()) {
                     String getSetValue = redisUtil.getSet(Const.KEY,
                             String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
                     // 如果getSetValue为空 -> 说明锁已经被释放了，可以获得锁
@@ -155,6 +157,38 @@ public class RedisLockV1 {
                     } else {
                         log.warn("没有获得分布式锁：[{}]", Const.KEY);
                     }
+                } else {
+                    log.warn("没有获得分布式锁：[{}]", Const.KEY);
+                }
+            }
+        }
+    }
+
+    /**
+     * redis分布式锁 - 将释放过期锁的权限交给其他服务器
+     * 使用getSet方法 - 改进
+     */
+    public void redisLockV3PlusPlus() {
+        for (int i = 0; i < flag; i++) {
+            Boolean result = redisUtil.setNx(Const.KEY,
+                    String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
+            if (result != null && result) {
+                // 获取到锁，执行业务逻辑
+                FunctionUtil.runBusiness();
+                // 释放锁
+                releaseLock();
+            } else {
+                // 未获取到锁，判断有效期是否过期，并在原来的有效期基础上再追加
+                // 这样能保证接下来的操作都在有效期内
+                String timeout = redisUtil.getSet(Const.KEY,
+                        String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
+                // 如果timeout为空(为空则说明锁已经被释放)
+                // 或者获取到的timeout小于当前的时间戳
+                if (StringUtils.isEmpty(timeout) || Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp()) {
+                    // 执行业务逻辑
+                    FunctionUtil.runBusiness();
+                    // 释放锁
+                    releaseLock();
                 } else {
                     log.warn("没有获得分布式锁：[{}]", Const.KEY);
                 }
