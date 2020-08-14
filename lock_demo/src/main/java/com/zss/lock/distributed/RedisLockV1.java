@@ -54,12 +54,12 @@ public class RedisLockV1 {
      * Redis分布式锁 - 将过期释放锁的权限交给Redis
      */
     public void redisLockV2() {
-        for (int i = 0; i < flag; i ++){
+        for (int i = 0; i < flag; i++) {
             // 调用SetNx
             Boolean result = redisUtil.setNx(Const.KEY, Const.VALUE);
             if (result != null && result) {
                 // 给锁添加有效时间 ： 当前时间 + 有效期
-                Boolean expire = redisUtil.expire(Const.KEY, Const.EXPIRE_TIME);
+                Boolean expire = redisUtil.expire(Const.KEY, Const.EXPIRE_TIME_SECONDS);
                 if (expire != null && expire) {
                     // 执行业务逻辑
                     FunctionUtil.runBusiness();
@@ -83,9 +83,9 @@ public class RedisLockV1 {
      * 调用setNxEx方法
      */
     public void redisLockV2Plus() {
-        for (int i = 0; i < flag; i ++){
-            String result = redisUtil.setNxEx(Const.KEY, Const.VALUE, Const.EXPIRE_TIME);
-            if (result != null && StringUtils.isEmpty(result)) {
+        for (int i = 0; i < flag; i++) {
+            String result = redisUtil.setNxEx(Const.KEY, Const.VALUE, Const.EXPIRE_TIME_SECONDS);
+            if (StringUtils.isNotEmpty(result)) {
                 // 执行业务逻辑
                 FunctionUtil.runBusiness();
                 // 释放锁
@@ -101,9 +101,9 @@ public class RedisLockV1 {
      * redis分布式锁 - 将释放过期锁的权限交给其他服务器
      */
     public void redisLockV3() {
-        for (int i = 0; i < flag; i ++){
+        for (int i = 0; i < flag; i++) {
             Boolean result = redisUtil.setNx(Const.KEY,
-                    String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME));
+                    String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
             if (result != null && result) {
                 // 获取到锁，执行业务逻辑
                 FunctionUtil.runBusiness();
@@ -113,7 +113,7 @@ public class RedisLockV1 {
                 // 未获取到锁，判断有效期是否过期
                 String timeout = redisUtil.get(Const.KEY);
                 // 如果timeout不为空且获取到的timeout小于当前的时间戳
-                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME) {
+                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS) {
                     // 执行业务逻辑
                     FunctionUtil.runBusiness();
                     // 释放锁
@@ -130,9 +130,9 @@ public class RedisLockV1 {
      * 使用getSet方法
      */
     public void redisLockV3Plus() {
-        for (int i = 0; i < flag; i ++){
+        for (int i = 0; i < flag; i++) {
             Boolean result = redisUtil.setNx(Const.KEY,
-                    String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME));
+                    String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
             if (result != null && result) {
                 // 获取到锁，执行业务逻辑
                 FunctionUtil.runBusiness();
@@ -142,9 +142,9 @@ public class RedisLockV1 {
                 // 未获取到锁，判断有效期是否过期
                 String timeout = redisUtil.get(Const.KEY);
                 // 如果timeout不为空且获取到的timeout小于当前的时间戳
-                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME) {
+                if (timeout != null && Long.parseLong(timeout) < TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS) {
                     String getSetValue = redisUtil.getSet(Const.KEY,
-                            String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME));
+                            String.valueOf(TimeUtil.getCurrentTimestamp() + Const.EXPIRE_TIME_MILLIS));
                     // 如果getSetValue为空 -> 说明锁已经被释放了，可以获得锁
                     // 或者如果getSetValue等于之前获得的timeout -> 说明在这之间没有其他服务器去改变这个value，也可以获得锁
                     if (StringUtils.isEmpty(getSetValue) || StringUtils.equals(timeout, getSetValue)) {

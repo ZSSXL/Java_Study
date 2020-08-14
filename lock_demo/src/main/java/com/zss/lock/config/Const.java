@@ -21,5 +21,10 @@ public class Const {
     /**
      * 有效期60秒，单位秒，
      */
-    public static final Long EXPIRE_TIME = 60L;
+    public static final Long EXPIRE_TIME_SECONDS = 60L;
+
+    /**
+     * 有效期60秒，单位毫秒
+     */
+    public static final Long EXPIRE_TIME_MILLIS = 60L * 1000L;
 }
