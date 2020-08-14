@@ -32,7 +32,6 @@ public class RedisLockV1 {
 
     /**
      * 分布式锁第一版本
-     * 每隔十秒执行一次
      */
     public void redisLockV1() {
         for (int i = 0; i < flag; i++) {
