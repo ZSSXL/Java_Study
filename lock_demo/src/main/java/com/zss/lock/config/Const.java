@@ -19,7 +19,7 @@ public class Const {
     public static final String VALUE = "distribute_lock_value";
 
     /**
-     * 有效期5秒，单位毫秒，
+     * 有效期60秒，单位秒，
      */
-    public static final Long EXPIRE_TIME = 5L * 1000L;
+    public static final Long EXPIRE_TIME = 60L;
 }
