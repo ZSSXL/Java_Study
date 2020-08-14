@@ -24,6 +24,6 @@ public class RedisLockTest extends BaseTest {
      */
     @Test
     public void redisLocKTest() {
-        redisLockV1.redisLockV2();
+        redisLockV1.redisLockV3();
     }
 }
