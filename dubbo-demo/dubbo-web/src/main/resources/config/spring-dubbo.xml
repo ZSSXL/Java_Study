@@ -8,7 +8,7 @@
 
     <dubbo:application name="consumer"/>
     <!-- 注册中心的IP地址 -->
-    <dubbo:registry address="zookeeper://60.205.179.156:2181" file="N/A"/>
+    <dubbo:registry address="zookeeper://127.0.0.1:2181" file="N/A"/>
     <!-- 扫描注解包路径 -->
     <dubbo:annotation package="com.zss.web.controller"/>
 

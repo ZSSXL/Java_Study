@@ -28,3 +28,6 @@ dubbo:
     port: 20880
   scan:
     base-packages: com.zss.service.impl
+
+server:
+  port: 9999
