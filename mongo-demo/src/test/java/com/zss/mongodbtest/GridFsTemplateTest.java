@@ -41,7 +41,7 @@ public class GridFsTemplateTest extends BaseTest {
         }
         if (objectId != null) {
             System.out.println(objectId.toString());
-            // 5f9f686a06ce741bd8b2ca3b
+            // 5f9fb620283ca11eed240d40
         } else {
             System.out.println("Nothing in here!!");
         }

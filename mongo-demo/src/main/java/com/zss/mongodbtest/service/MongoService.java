@@ -18,4 +18,12 @@ public interface MongoService {
      * @param response 响应
      */
     void view(GridFSFile fsFile, HttpServletResponse response);
+
+    /**
+     * 查看缩略图
+     *
+     * @param fsFile   文件
+     * @param response 响应
+     */
+    void viewCompression(GridFSFile fsFile, HttpServletResponse response);
 }

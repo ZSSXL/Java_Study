@@ -30,15 +30,36 @@ public class MongoController {
         this.mongoService = mongoService;
     }
 
+    /**
+     * 查看原图
+     *
+     * @param response 相应
+     * @return nothing
+     */
     @GetMapping
     public String findOne(HttpServletResponse response) {
-        String objectId = "5f9f76fa8b21030791f8ae81";
+        String objectId = "5f9fb620283ca11eed240d40";
+        // 5f9fb6b261135309e1d21761
         GridFSFile one = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(objectId)));
         if (one != null) {
             mongoService.view(one, response);
             return "yes";
         } else {
             return "Oh, no";
+        }
+    }
+
+    /**
+     * 查看缩略图
+     *
+     * @param response 相应
+     */
+    @GetMapping("/compression")
+    public void viewCompression(HttpServletResponse response) {
+        String objectId = "5f9fb620283ca11eed240d40";
+        GridFSFile one = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(objectId)));
+        if (one != null) {
+            mongoService.viewCompression(one, response);
         }
     }
 }

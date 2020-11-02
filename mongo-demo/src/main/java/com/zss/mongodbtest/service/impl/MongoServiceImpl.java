@@ -3,6 +3,7 @@ package com.zss.mongodbtest.service.impl;
 import com.mongodb.client.gridfs.model.GridFSFile;
 import com.zss.mongodbtest.service.MongoService;
 import lombok.extern.slf4j.Slf4j;
+import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.io.IOUtils;
 import org.springframework.data.mongodb.gridfs.GridFsResource;
 import org.springframework.data.mongodb.gridfs.GridFsTemplate;
@@ -28,7 +29,6 @@ public class MongoServiceImpl implements MongoService {
     @Override
     public void view(GridFSFile fsFile, HttpServletResponse response) {
         String fileName = fsFile.getFilename();
-        System.out.println("【" + fileName + "】");
         GridFsResource resource = gridFsTemplate.getResource(fsFile);
         try {
             OutputStream out = response.getOutputStream();
@@ -38,7 +38,31 @@ public class MongoServiceImpl implements MongoService {
             out.write(bytes);
             //取后缀
             String sub = fileName.substring(fileName.lastIndexOf(".") + 1);
-            log.info("");
+            log.info("预览压缩图片[{}]", fileName);
+            response.setHeader("Content-disposition", "inline; filename=" + fileName);
+            response.setContentType("image/" + sub);
+        } catch (IOException e) {
+            log.error("预览图片[{}]失败:[{}]", fileName, e.getMessage());
+        }
+    }
+
+    @Override
+    public void viewCompression(GridFSFile fsFile, HttpServletResponse response) {
+        String fileName = fsFile.getFilename();
+        GridFsResource resource = gridFsTemplate.getResource(fsFile);
+        try {
+            OutputStream out = response.getOutputStream();
+            // 压缩图片
+            Thumbnails.of(resource.getInputStream())
+                    // 按比例缩放 - 20%
+                    .scale(0.2f)
+                    // 透明度 - 80%
+                    .outputQuality(0.8f)
+                    // 输出
+                    .toOutputStream(out);
+            //取后缀
+            String sub = fileName.substring(fileName.lastIndexOf(".") + 1);
+            log.info("预览压缩图片[{}]", fileName);
             response.setHeader("Content-disposition", "inline; filename=" + fileName);
             response.setContentType("image/" + sub);
         } catch (IOException e) {
