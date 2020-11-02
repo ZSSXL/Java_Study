@@ -12,7 +12,6 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author zhoushs@dist.com.cn
@@ -39,11 +38,11 @@ public class MongoServiceImpl implements MongoService {
             out.write(bytes);
             //取后缀
             String sub = fileName.substring(fileName.lastIndexOf(".") + 1);
-            log.info("图片预览");
+            log.info("");
             response.setHeader("Content-disposition", "inline; filename=" + fileName);
             response.setContentType("image/" + sub);
         } catch (IOException e) {
-            e.printStackTrace();
+            log.error("预览图片[{}]失败:[{}]", fileName, e.getMessage());
         }
     }
 }
