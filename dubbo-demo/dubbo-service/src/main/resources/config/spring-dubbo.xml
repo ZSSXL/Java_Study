@@ -12,5 +12,7 @@
     <!-- 扫描注解包路径 -->
     <dubbo:annotation package="com.zss.service"/>
 
+    <dubbo:protocol name="dubbo" port="20811"/>
+
     <dubbo:provider version="1.0.0" timeout="300000" />
 </beans>

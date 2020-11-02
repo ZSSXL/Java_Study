@@ -1,0 +1,44 @@
+package com.zss.mongodbtest.controller;
+
+import com.mongodb.client.gridfs.model.GridFSFile;
+import com.zss.mongodbtest.service.MongoService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.gridfs.GridFsTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletResponse;
+
+/**
+ * @author zhoushs@dist.com.cn
+ * @date 2020/11/2 9:30
+ * @desc mongodb - controller
+ */
+@RestController
+@RequestMapping("/mongo")
+public class MongoController {
+
+    private final GridFsTemplate gridFsTemplate;
+    private final MongoService mongoService;
+
+    @Autowired
+    public MongoController(GridFsTemplate gridFsTemplate, MongoService mongoService) {
+        this.gridFsTemplate = gridFsTemplate;
+        this.mongoService = mongoService;
+    }
+
+    @GetMapping
+    public String findOne(HttpServletResponse response) {
+        String objectId = "5f9f76fa8b21030791f8ae81";
+        GridFSFile one = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(objectId)));
+        if (one != null) {
+            mongoService.view(one, response);
+            return "yes";
+        } else {
+            return "Oh, no";
+        }
+    }
+}

@@ -22,7 +22,7 @@ dubbo:
     name: dubbo_test_service
   registry:
     protocol: zookeeper
-    addreess: zookeeper://60.205.179.156:2181
+    addreess: zookeeper://127.0.0.1:2181
   protocol:
     name: dubbo
     port: 20880
