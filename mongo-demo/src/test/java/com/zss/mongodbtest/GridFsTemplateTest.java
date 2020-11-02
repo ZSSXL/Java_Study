@@ -29,8 +29,8 @@ public class GridFsTemplateTest extends BaseTest {
 
     @Test
     public void saveImage() {
-        String filePath = "D:/2236037.jpg";
-        String fileName = "2236037";
+        String filePath = "D:/danbo.jpg";
+        String fileName = "danbo";
         MultipartFile file = getMulFileByPath(filePath, fileName);
         System.out.println("FileName : " + file.getOriginalFilename());
         ObjectId objectId = null;

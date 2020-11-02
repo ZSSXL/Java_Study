@@ -38,7 +38,7 @@ public class MongoServiceImpl implements MongoService {
             out.write(bytes);
             //取后缀
             String sub = fileName.substring(fileName.lastIndexOf(".") + 1);
-            log.info("预览压缩图片[{}]", fileName);
+            log.info("预览原图[{}]", fileName);
             response.setHeader("Content-disposition", "inline; filename=" + fileName);
             response.setContentType("image/" + sub);
         } catch (IOException e) {
@@ -52,7 +52,12 @@ public class MongoServiceImpl implements MongoService {
         GridFsResource resource = gridFsTemplate.getResource(fsFile);
         try {
             OutputStream out = response.getOutputStream();
-            // 压缩图片
+            /*
+             * 图片操作
+             * .size(int x, int y) - 指定大小
+             * .keepAspectRatio(true) - 是否按比例进行变换（默认true）
+             * question: 压缩大图片有点慢，2Mb以上的图片压缩需要3秒以上
+             */
             Thumbnails.of(resource.getInputStream())
                     // 按比例缩放 - 20%
                     .scale(0.2f)

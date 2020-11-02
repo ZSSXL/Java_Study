@@ -38,8 +38,8 @@ public class MongoController {
      */
     @GetMapping
     public String findOne(HttpServletResponse response) {
-        String objectId = "5f9fb620283ca11eed240d40";
-        // 5f9fb6b261135309e1d21761
+        String objectId = "5f9fbbc5dd2b6a657ae4f894";
+        // 5f9fbbc5dd2b6a657ae4f894
         GridFSFile one = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(objectId)));
         if (one != null) {
             mongoService.view(one, response);
@@ -56,7 +56,7 @@ public class MongoController {
      */
     @GetMapping("/compression")
     public void viewCompression(HttpServletResponse response) {
-        String objectId = "5f9fb620283ca11eed240d40";
+        String objectId = "5f9fbbc5dd2b6a657ae4f894";
         GridFSFile one = gridFsTemplate.findOne(Query.query(Criteria.where("_id").is(objectId)));
         if (one != null) {
             mongoService.viewCompression(one, response);
