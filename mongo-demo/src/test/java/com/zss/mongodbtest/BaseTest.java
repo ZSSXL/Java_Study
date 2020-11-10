@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  */
 @SpringBootTest
 @RunWith(SpringRunner.class)
-class BaseTest {
+public class BaseTest {
 
     @Before
     public void beforeTest() {
