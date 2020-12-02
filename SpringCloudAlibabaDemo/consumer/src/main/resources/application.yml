@@ -1,0 +1,10 @@
+# dubbo服务配置
+dubbo:
+  protocol:
+    name: dubbo
+    # -1为随机
+    port: -1
+  registry:
+    address: spring-cloud://localhost
+  cloud:
+    subscribed-services: 'application-service'
