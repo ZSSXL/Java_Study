@@ -8,8 +8,13 @@ spring:
     nacos:
       discovery:
         server-addr: http://localhost:8848
+        namespace: f5e43109-55e4-4a25-8547-b0094a330d8c
+        group: app-consumer
       config:
-        server-addr: http://localhost:8848
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
+        file-extension: yaml
+        group: app-consumer
 
 # 关闭频繁刷日志: [INFO]ClientWorker: get changedGroupKeys:[]
 logging:

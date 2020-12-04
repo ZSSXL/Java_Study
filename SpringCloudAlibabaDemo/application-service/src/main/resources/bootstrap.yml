@@ -3,14 +3,20 @@ server:
 
 spring:
   application:
-    name: application-service
+    name: app-service
   cloud:
     nacos:
       discovery:
         server-addr: http://localhost:8848
+        namespace: f5e43109-55e4-4a25-8547-b0094a330d8c
+        group: app-service
       config:
-        server-addr: http://localhost:8848
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        namespace: ${spring.cloud.nacos.discovery.namespace}
         file-extension: yaml
+        group: app-service
+  profiles:
+    active: dev
 
 # 关闭频繁刷日志: [INFO]ClientWorker: get changedGroupKeys:[]
 logging:
