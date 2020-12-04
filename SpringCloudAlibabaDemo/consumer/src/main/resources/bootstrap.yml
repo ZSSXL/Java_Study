@@ -3,7 +3,7 @@ server:
 
 spring:
   application:
-    name: consumer
+    name: app-consumer
   cloud:
     nacos:
       discovery:

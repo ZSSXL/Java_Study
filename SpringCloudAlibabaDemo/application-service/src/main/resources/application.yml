@@ -7,8 +7,6 @@ dubbo:
     port: -1
   registry:
     address: spring-cloud://localhost
-  cloud:
-    subscribed-services: 'app-service'
 
 spring:
   jpa:
