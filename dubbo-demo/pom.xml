@@ -18,7 +18,7 @@
     <properties>
         <jackson.version>2.10.0</jackson.version>
         <lombok.version>1.16.18</lombok.version>
-        <spring-boot.version>2.2.5.RELEASE</spring-boot.version>
+        <spring-boot.version>2.5.12</spring-boot.version>
         <dubbo.version>3.0.1</dubbo.version>
         <zookeeper.version>3.6.1</zookeeper.version>
         <zkclient.version>0.10</zkclient.version>
