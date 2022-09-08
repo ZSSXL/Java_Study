@@ -23,7 +23,7 @@
         <zookeeper.version>3.6.1</zookeeper.version>
         <zkclient.version>0.10</zkclient.version>
         <javassist.version>3.18.2-GA</javassist.version>
-        <postgresql-driver.version>42.2.8</postgresql-driver.version>
+        <postgresql-driver.version>42.4.1</postgresql-driver.version>
     </properties>
 
     <dependencyManagement>
